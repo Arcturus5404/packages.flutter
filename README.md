@@ -1,6 +1,6 @@
 <!-- [![Build Status](https://api.cirrus-ci.com/github/ScerIO/packages.flutter.svg)](https://cirrus-ci.com/github/scerio/packages.flutter/main) -->
 
-❗️ __If you want to be a new maintainer, will__ [send me a message](https://t.me/Serge_Shkurko)
+Forked to only use the pdfx renderer stuff
 
 ## Available packages and plugins 
 

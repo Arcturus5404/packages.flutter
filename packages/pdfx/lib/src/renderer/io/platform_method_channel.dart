@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 // ignore: unnecessary_import
 import 'dart:typed_data';
@@ -12,7 +13,6 @@ import 'package:pdfx/src/renderer/interfaces/document.dart';
 import 'package:pdfx/src/renderer/interfaces/page.dart';
 import 'package:pdfx/src/renderer/interfaces/platform.dart';
 import 'package:synchronized/synchronized.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 const MethodChannel _channel = MethodChannel('io.scer.pdf_renderer');
 
@@ -29,9 +29,6 @@ class PdfxPlatformMethodChannel extends PdfxPlatform {
   /// Open PDF document from filesystem path
   @override
   Future<PdfDocument> openFile(String filePath, {String? password}) async {
-    if (UniversalPlatform.isWeb) {
-      throw PlatformNotSupportedException();
-    }
     return _open(
       (await _channel.invokeMethod<Map<dynamic, dynamic>>(
         'open.document.file',
@@ -247,9 +244,9 @@ class PdfPageImageMethodChannel extends PdfPageImage {
     required bool removeTempFile,
   }) async {
     if (format == PdfPageImageFormat.webp &&
-        (UniversalPlatform.isIOS ||
-            UniversalPlatform.isWindows ||
-            UniversalPlatform.isMacOS)) {
+        (Platform.isIOS ||
+            Platform.isWindows ||
+            Platform.isMacOS)) {
       throw PdfNotSupportException(
         'PDF Renderer on IOS & Windows, MacOs platforms '
         'do not support WEBP format',
@@ -280,9 +277,9 @@ class PdfPageImageMethodChannel extends PdfPageImage {
 
     final retWidth = obj['width'] as int?, retHeight = obj['height'] as int?;
     late final Uint8List pixels;
-    if (UniversalPlatform.isAndroid ||
-        UniversalPlatform.isIOS ||
-        UniversalPlatform.isMacOS) {
+    if (Platform.isAndroid ||
+        Platform.isIOS ||
+        Platform.isMacOS) {
       pixels = await getPixels(
         path: obj['path'],
         removeTempFile: removeTempFile,
