@@ -28,9 +28,6 @@ def builtInKotlinEnabled = (project.findProperty('android.builtInKotlin') ?: 'fa
         .toBoolean()
 
 apply plugin: 'com.android.library'
-if (!builtInKotlinEnabled) {
-    apply plugin: 'kotlin-android'
-}
 
 android {
     // Conditional for compatibility with AGP <4.2.
@@ -52,12 +49,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
+}
 
-    if (!builtInKotlinEnabled) {
-        kotlinOptions {
-            jvmTarget = '11'
-        }
-    }
+kotlin {
+  compilerOptions {
+    jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
+  }
 }
 
 dependencies {
